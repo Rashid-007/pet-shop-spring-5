@@ -1,11 +1,12 @@
 package throne.springreacto.petshopspring5.services.map;
 
+import org.springframework.stereotype.Service;
 import throne.springreacto.petshopspring5.model.Owner;
-import throne.springreacto.petshopspring5.services.CrudService;
+import throne.springreacto.petshopspring5.services.OwnerService;
 
 import java.util.Set;
-
-public class OwnerServiceMap extends AbstractMapService<Owner, Long> implements CrudService<Owner, Long> {
+@Service
+public class OwnerServiceMap extends AbstractMapService<Owner, Long> implements OwnerService {
     @Override
     public Set<Owner> findAll() {
         return super.findAll();
@@ -23,11 +24,16 @@ public class OwnerServiceMap extends AbstractMapService<Owner, Long> implements 
 
     @Override
     public Owner save(Owner owner) {
-        return super.save(owner.getId(), owner);
+        return super.save(owner);
     }
 
     @Override
     public Owner findById(Long id) {
         return super.findById(id);
+    }
+
+    @Override
+    public Owner findByLastName(String name) {
+        return null;
     }
 }

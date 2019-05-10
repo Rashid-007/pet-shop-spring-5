@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://wwww.thymeleaf.org">
+<html lang="en" xmlns:th="http://wwww.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'home')}">
 <head>
     <meta charset="UTF-8">
     <title>Pet shop</title>
 </head>
 <body>
-<h1 th:text="'Index page'">Index page</h1>
+
+<h1 th:text="#{welcome}">Welcome</h1>
 </body>
 </html>

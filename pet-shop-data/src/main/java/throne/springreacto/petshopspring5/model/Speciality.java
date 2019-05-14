@@ -8,6 +8,6 @@ import javax.persistence.Entity;
 @Getter
 @Setter
 @Entity
-public class PetType extends BaseEntity{
-    private String name;
+public class Speciality extends BaseEntity {
+    private String description;
 }

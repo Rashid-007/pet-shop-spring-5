@@ -2,6 +2,7 @@ package throne.springreacto.petshopspring5.model;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ import java.util.Set;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @Entity
 public class Pet extends BaseEntity{
     @Builder
@@ -21,7 +23,7 @@ public class Pet extends BaseEntity{
         this.owner = owner;
         this.birthDate = birthDate;
 
-        if(visits != null || visits.size() > 0){
+        if(visits != null){
             this.visits = visits;
         }
     }

@@ -1,13 +1,14 @@
 package throne.springreacto.petshopspring5.model;
 
-import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.MappedSuperclass;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @MappedSuperclass //Hey JPA, please do not do anything for this POJO in db. Other classes inherits from this and it is fine.
 public class Person extends BaseEntity{
     public Person(Long id, String firstname, String lastname){

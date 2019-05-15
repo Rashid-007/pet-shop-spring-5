@@ -2,6 +2,7 @@ package throne.springreacto.petshopspring5.model;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -10,13 +11,14 @@ import java.util.Set;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @Entity
 public class Vet extends Person {
     @Builder
     public Vet(Long id, String firstname, String lastname, Set<Speciality> specialities){
         super(id, firstname, lastname);
 
-        if(specialities != null || specialities.size() > 0){
+        if(specialities != null){
             this.specialities = specialities;
         }
     }

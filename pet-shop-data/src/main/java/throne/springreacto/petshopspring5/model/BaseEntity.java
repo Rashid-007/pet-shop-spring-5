@@ -1,5 +1,6 @@
 package throne.springreacto.petshopspring5.model;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +14,9 @@ import java.io.Serializable;
 @Setter
 @MappedSuperclass
 public class BaseEntity implements Serializable {
+    public BaseEntity(Long id){
+        this.id = id;
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

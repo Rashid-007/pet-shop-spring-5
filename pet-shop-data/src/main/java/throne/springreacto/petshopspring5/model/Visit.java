@@ -1,5 +1,6 @@
 package throne.springreacto.petshopspring5.model;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +12,13 @@ import java.time.LocalDate;
 @Setter
 @Entity
 public class Visit extends BaseEntity{
+    @Builder
+    public Visit(Long id, LocalDate date, String description, Pet pet){
+        super(id);
+        this.date = date;
+        this.description = description;
+        this.pet = pet;
+    }
     private LocalDate date;
     private String description;
     @ManyToOne

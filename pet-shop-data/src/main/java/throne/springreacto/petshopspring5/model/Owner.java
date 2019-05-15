@@ -1,5 +1,6 @@
 package throne.springreacto.petshopspring5.model;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,10 +15,20 @@ import java.util.Set;
 @Entity
 @Table(name = "owners")
 public class Owner extends Person {
+    @Builder
+    public Owner(Long id, String firstname, String lastname, String address, String city, String telephone, Set<Pet> pets){
+        super(id, firstname, lastname);
+        this.address = address;
+        this.city = city;
+        this.telephone = telephone;
+
+        if(pets != null){
+            this.pets = pets;
+        }
+    }
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private Set<Pet> pets = new HashSet<>();
     private String address;
     private String city;
     private String telephone;
-
 }

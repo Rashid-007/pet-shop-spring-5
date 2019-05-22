@@ -8,6 +8,7 @@ import throne.springreacto.petshopspring5.services.OwnerService;
 import throne.springreacto.petshopspring5.services.PetService;
 import throne.springreacto.petshopspring5.services.PetTypeService;
 
+import java.util.List;
 import java.util.Set;
 @Service
 @Profile({"default", "map"})
@@ -70,5 +71,12 @@ public class OwnerServiceMap extends AbstractMapService<Owner, Long> implements 
     public Owner findByLastName(String lastname) {
         return this.findAll().stream().filter(owner -> owner.getLastname().equalsIgnoreCase(lastname))
                 .findFirst().orElse(null);
+    }
+
+    @Override
+    public List<Owner> findAllByLastnameLike(String lastName) {
+
+        //todo - impl
+        return null;
     }
 }

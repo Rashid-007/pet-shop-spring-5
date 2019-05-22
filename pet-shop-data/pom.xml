@@ -10,6 +10,7 @@
     <artifactId>pet-shop-data</artifactId>
     <properties>
         <spring-boot.repackage.skip>true</spring-boot.repackage.skip>
+        <java.version>11</java.version>
     </properties>
     <dependencies>
         <dependency>

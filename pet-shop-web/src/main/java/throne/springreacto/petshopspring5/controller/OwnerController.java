@@ -2,26 +2,100 @@ package throne.springreacto.petshopspring5.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import throne.springreacto.petshopspring5.model.Owner;
 import throne.springreacto.petshopspring5.services.OwnerService;
+
+import javax.validation.Valid;
+import java.util.List;
 
 @RequestMapping("/owners")
 @Controller
 public class OwnerController {
+    private static final String VIEWS_OWNER_CREATE_OR_UPDATE_FORM = "owner/createOrUpdateOwnerForm";
+
     private final OwnerService ownerService;
 
     public OwnerController(OwnerService ownerService) {
         this.ownerService = ownerService;
     }
 
-    @RequestMapping({"", "/", "/index", "/index.html"})
-    public String listOwners(Model model){
-        model.addAttribute("owners", ownerService.findAll());
-        return "owner/index";
+    @InitBinder
+    public void setAllowedFields(WebDataBinder dataBinder) {
+        dataBinder.setDisallowedFields("id");
     }
 
     @RequestMapping("/find")
-    public String findOwner(){
-        return "notImplementedYet";
+    public String findOwner(Model model){
+        model.addAttribute("owner", Owner.builder().build());
+        return "owner/findOwners";
+    }
+
+    @GetMapping
+    public String processFindForm(Owner owner, BindingResult result, Model model){
+        // allow parameterless GET request for /owners to return all records
+        if (owner.getLastname() == null) {
+            owner.setLastname(""); // empty string signifies broadest possible search
+        }
+
+        // Find owners by last name
+        List<Owner> results = ownerService.findAllByLastnameLike("%"+ owner.getLastname() + "%");
+
+        if (results.isEmpty()) {
+            // no owners found
+            result.rejectValue("lastname", "notFound", "not found");
+            return "owner/findOwners";
+        } else if (results.size() == 1) {
+            // 1 owner found
+            owner = results.get(0);
+            return "redirect:/owners/" + owner.getId();
+        } else {
+            // multiple owners found
+            model.addAttribute("owners", results);
+            return "owner/ownersList";
+        }
+    }
+
+    @GetMapping("/new")
+    public String initCreationForm(Model model) {
+        model.addAttribute("owner", Owner.builder().build());
+        return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
+    }
+
+    @PostMapping("/new")
+    public String processCreationForm(@Valid Owner owner, BindingResult result) {
+        if (result.hasErrors()) {
+            return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
+        } else {
+            Owner savedOwner =  ownerService.save(owner);
+            return "redirect:/owners/" + savedOwner.getId();
+        }
+    }
+
+    @GetMapping("/{ownerId}/edit")
+    public String initUpdateOwnerForm(@PathVariable Long ownerId, Model model) {
+        model.addAttribute("owner", ownerService.findById(ownerId));
+        return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
+    }
+
+    @PostMapping("/{ownerId}/edit")
+    public String processUpdateOwnerForm(@Valid Owner owner, BindingResult result, @PathVariable Long ownerId) {
+        if (result.hasErrors()) {
+            return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
+        } else {
+            owner.setId(ownerId);
+            Owner savedOwner = ownerService.save(owner);
+            return "redirect:/owners/" + savedOwner.getId();
+        }
+    }
+
+    @GetMapping("/{ownerId}")
+    public ModelAndView showOwner(@PathVariable Long ownerId) {
+        ModelAndView mav = new ModelAndView("owner/ownerDetails");
+        mav.addObject(ownerService.findById(ownerId));
+        return mav;
     }
 }

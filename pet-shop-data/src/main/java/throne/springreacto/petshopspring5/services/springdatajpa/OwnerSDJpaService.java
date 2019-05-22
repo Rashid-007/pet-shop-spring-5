@@ -9,6 +9,7 @@ import throne.springreacto.petshopspring5.repositories.PetTypeRepository;
 import throne.springreacto.petshopspring5.services.OwnerService;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 @Service
 @Profile("springdatajpa")
@@ -27,6 +28,11 @@ public class OwnerSDJpaService implements OwnerService {
     @Override
     public Owner findByLastName(String lastname) {
         return ownerRepository.findByLastname(lastname);
+    }
+
+    @Override
+    public List<Owner> findAllByLastnameLike(String lastName) {
+        return ownerRepository.findAllByLastnameLike(lastName);
     }
 
     @Override

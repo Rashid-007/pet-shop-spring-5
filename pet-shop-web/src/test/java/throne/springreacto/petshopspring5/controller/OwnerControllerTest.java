@@ -54,7 +54,7 @@ class OwnerControllerTest {
         //WHEN
         mockMvc.perform(get("/owners"))
                 .andExpect(status().is(200))
-                .andExpect(view().name("owners/ownersList"))
+                .andExpect(view().name("owner/ownersList"))
                 .andExpect(model().attribute("owners", hasSize(2)));
     }
 
@@ -77,7 +77,7 @@ class OwnerControllerTest {
         mockMvc.perform(get("/owners")
                 .param("lastName",""))
                 .andExpect(status().isOk())
-                .andExpect(view().name("owners/ownersList"))
+                .andExpect(view().name("owner/ownersList"))
                 .andExpect(model().attribute("owners", hasSize(2)));
     }
 
@@ -85,7 +85,7 @@ class OwnerControllerTest {
     void initCreationForm() throws Exception {
         mockMvc.perform(get("/owners/new"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("owners/createOrUpdateOwnerForm"))
+                .andExpect(view().name("owner/createOrUpdateOwnerForm"))
                 .andExpect(model().attributeExists("owner"));
 
         verifyZeroInteractions(ownerService);
@@ -109,7 +109,7 @@ class OwnerControllerTest {
 
         mockMvc.perform(get("/owners/1/edit"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("owners/createOrUpdateOwnerForm"))
+                .andExpect(view().name("owner/createOrUpdateOwnerForm"))
                 .andExpect(model().attributeExists("owner"));
 
         verifyZeroInteractions(ownerService);
@@ -131,7 +131,7 @@ class OwnerControllerTest {
     void findOwner() throws Exception{
         mockMvc.perform(get("/owners/find"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("owners/findOwners"))
+                .andExpect(view().name("owner/findOwners"))
                 .andExpect(model().attributeExists("owner"));
 
         verifyZeroInteractions(ownerService);
@@ -143,7 +143,7 @@ class OwnerControllerTest {
 
         mockMvc.perform(get("/owners/123"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("owners/ownerDetails"))
+                .andExpect(view().name("owner/ownerDetails"))
                 .andExpect(model().attribute("owner", hasProperty("id", is(1l))));
     }
 }
